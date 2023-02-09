@@ -5,20 +5,19 @@ services:
     build: ./backend
     ports:
       - 3001:3001
-    platforms:
-      - linux/amd64
     working_dir: /app-backend
     volumes:
       - ./backend:/app-backend
     depends_on:
-      - db:
+      db:
         condition: service_healthy
     environment:
       - APP_PORT=3001
       - JWT_SECRET=jwt_secret
-      - DB_HOST=root
+      - DB_USER=root
       - DB_PASS=123456
       - DB_HOST=db
+      - DB_NAME=desafio_maxmilhas
       - DB_PORT=3306
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"]
@@ -29,8 +28,6 @@ services:
   db:
     image: mysql:8.0.21
     container_name: desafio_maxmilhas_db
-    platforms:
-      - linux/amd64
     ports:
       - 3002:3306
     environment:

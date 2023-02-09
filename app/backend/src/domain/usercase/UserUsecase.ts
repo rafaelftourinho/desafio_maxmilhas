@@ -18,7 +18,7 @@ class UserUseCase {
     return await this.userRepository.registerUser(entity);
   }
 
-  public findUserByCPF = async (entity: Omit<User, "id">): Promise<User> => {
+  public findUserByCPF = async (entity: Pick<User, "cpf">): Promise<User> => {
 
     if (!cpfCheck2.test(entity.cpf)) {
       throw new Error('CPF is not valid');
@@ -31,7 +31,7 @@ class UserUseCase {
     return await this.userRepository.findAllCPF();
   }
 
-  public removeCPF = async (cpf: string): Promise<User> => {
+  public removeCPF = async (cpf: string) => {
 
     if (!cpfCheck2.test(cpf)) {
       throw new Error('CPF is not valid');
