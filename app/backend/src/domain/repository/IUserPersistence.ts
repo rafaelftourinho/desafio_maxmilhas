@@ -1,7 +1,8 @@
 interface IUserPersistence {
-  register(entity: any): Promise<any>
-  findUserByCPF(cpf: string): Promise<any>
+  registerUser(entity: any): Promise<any>
+  findUserByCPF(entity: any): Promise<any>
   findAllCPF(): Promise<any>
   removeCPF(cpf: string): Promise<any>
 }
 
+export { IUserPersistence }
