@@ -8,5 +8,6 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
+app.use('/', (_req, res) => res.json({ ok: true }));
 
 export default app;
