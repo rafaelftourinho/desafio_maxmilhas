@@ -1,0 +1,6 @@
+USE `desafio_maxmilhas`
+
+INSERT INTO `user` VALUES
+(1,'11111111112',NOW()),
+(2,'11111111113',NOW()),
+(3,'14267892498',NOW());

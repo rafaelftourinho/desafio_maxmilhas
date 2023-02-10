@@ -5,7 +5,9 @@
   "main": "./build/server",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/application/server.ts",
-    "start": "node ."
+    "start": "node .",
+    "migration": "",
+    "seed": ""
   },
   "keywords": [],
   "author": "Rafael França Tourinho <rafaelftourinho@gmail.com>",

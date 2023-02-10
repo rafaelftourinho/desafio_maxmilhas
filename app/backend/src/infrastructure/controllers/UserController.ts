@@ -47,7 +47,7 @@ class UserController {
   }
 
   public removeCPF = async (req: Request, res: Response, next: NextFunction) => {
-    const { cpf } = req.body;
+    const { cpf } = req.params;
 
     try {
       await this.userUseCase.removeCPF(cpf);
