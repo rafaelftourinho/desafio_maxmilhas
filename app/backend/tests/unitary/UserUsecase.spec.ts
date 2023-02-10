@@ -71,4 +71,17 @@ describe('UserUseCase', () => {
       );
     });
   });
+
+  describe('findAllCPF', () => {
+    it('should return a list of users', async () => {
+      userRepository.findAllCPF.mockResolvedValue([{ cpf: '12345678901', createdAt: '', id: 1 },{ cpf: '10987654321', createdAt: '', id: 2 }]);
+      const result = await userUseCase.findAllCPF();
+      expect(result).toEqual([{ cpf: '12345678901', createdAt: '', id: 1 }, { cpf: '10987654321', createdAt: '', id: 2 }]);
+    });
+  
+    it('should return an empty list if no users are found', async () => {
+      const result = await userUseCase.findAllCPF();
+      expect(result).toEqual([]);
+    });
+  });
 });

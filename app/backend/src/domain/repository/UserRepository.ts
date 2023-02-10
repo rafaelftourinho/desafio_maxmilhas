@@ -17,7 +17,7 @@ class UserRepository {
   }
 
   public removeCPF = async (cpf: string) => {
-    return await this.iPersistence.removeCPF(cpf);
+    return this.iPersistence.removeCPF(cpf);
   }
 }
 
