@@ -30,7 +30,14 @@ class UserUseCase {
   public findUserByCPF = async (entity: Omit<User, "id">): Promise<Omit<User, 'id'> | null> => {
     const result = await this.userRepository.findUserByCPF(entity);
 
-    if(!result) return null;
+    if(!result) {
+      throw new HTTPError(404, 'NotFoundCpfException', 'CPF not found');
+    };
+
+    if (!this.isValidCPF(entity.cpf)) {
+      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
+    }
+
     return { cpf: result.cpf, createdAt: result.createdAt };
   }
 
@@ -41,7 +48,11 @@ class UserUseCase {
   public removeCPF = async (cpf: string) => {
 
     if (this.findUserByCPF({ cpf, createdAt: new Date().toLocaleString() }) === null) {
-      throw new HTTPError(400, 'ExistsCpfException', 'CPF already exists');
+      throw new HTTPError(400, 'NotFoundCpfException', 'CPF not found');
+    }
+
+    if (!this.isValidCPF(cpf)) {
+      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
     }
 
     return await this.userRepository.removeCPF(cpf);
