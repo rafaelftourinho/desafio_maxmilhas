@@ -2,7 +2,6 @@ import { HTTPError } from "../../infrastructure/utils/HTTPError";
 import { User } from "../entities/User";
 import { UserRepository } from "../repository/UserRepository";
 
-const cpfCheck = /^(?:(\d)\1{10})$|(\D)|^(\d{12,})$|^(\d{0,10})$/g
 
 class UserUseCase {
   constructor(private userRepository: UserRepository) {}
@@ -13,25 +12,21 @@ class UserUseCase {
       throw new HTTPError(400, 'ExistsCpfException', 'CPF already exists');
     }
 
-    if (cpfCheck.test(entity.cpf)) {
-      throw new HTTPError(400, 'InvalidCpfException', 'CPF is not valid1');
-    }
-
     if (await this.isValidCPF(entity.cpf)) {
-      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid2');
+      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
+    }
+    
+    if (entity.cpf.length !== 11) {
+      throw new HTTPError(400, 'InvalidCpfException', 'CPF is not valid');
     }
 
-    if (entity.cpf.length !== 11) {
-      throw new HTTPError(400, 'InvalidCpfException', 'CPF is not valid3');
-    }
 
     return await this.userRepository.registerUser(entity);
   }
 
   public findUserByCPF = async (entity: Omit<User, "id">): Promise<Omit<User, 'id'> | null> => {
-    const result = await this.userRepository.findUserByCPF(entity) as { id?: number, cpf: string, createdAt: string };
+    const result = await this.userRepository.findUserByCPF(entity);
 
-    // if (result) delete result.id;
     return result;
   }
 
@@ -43,26 +38,32 @@ class UserUseCase {
     const userExists = await this.findUserByCPF({ cpf, createdAt: '' });
 
     if (!userExists) {
-      throw new HTTPError(404, 'NotFoundCpfException', 'CPF is not valid');
+      throw new HTTPError(400, 'NotFoundCpfException', 'CPF is not valid');
     }
 
     return await this.userRepository.removeCPF(cpf);
   }
 
   public isValidCPF = async (cpf: any)=> {
-    if (typeof cpf !== 'string') return false
-    cpf = cpf.replace(/[^\d]+/g, '')
+    let soma;
+    let resto;
+    soma = 0;
+  if (cpf == "00000000000") return false;
 
-    cpf = cpf.split('').map((el: string) => +el)
-    const rest = (count: number) => (cpf.slice(0, count-12)
-        .reduce( (soma: number, el: number, index: number) => (soma + el * (count-index)), 0 )*10) % 11 % 10
-    return rest(10) === cpf[9] && rest(11) === cpf[10]
+  for (let i=1; i<=9; i++) soma = soma + parseInt(cpf.substring(i-1, i)) * (11 - i);
+  resto = (soma * 10) % 11;
+
+    if ((resto == 10) || (resto == 11))  resto = 0;
+    if (resto != parseInt(cpf.substring(9, 10)) ) return false;
+
+  soma = 0;
+    for (let i = 1; i <= 10; i++) soma = soma + parseInt(cpf.substring(i-1, i)) * (12 - i);
+    resto = (soma * 10) % 11;
+
+    if ((resto == 10) || (resto == 11))  resto = 0;
+    if (resto != parseInt(cpf.substring(10, 11) ) ) return false;
+    return true;
   }
-
-  // public isValidCPF = async (cpf: any)=> {
-  //   if (typeof cpf !== 'string') return false
-  //   cpf.split('').every(number => number === cpf[number.length - 1])
-  // }
 }
 
 export { UserUseCase };
