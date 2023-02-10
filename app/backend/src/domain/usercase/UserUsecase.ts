@@ -2,7 +2,6 @@ import { HTTPError } from "../../infrastructure/utils/HTTPError";
 import { User } from "../entities/User";
 import { UserRepository } from "../repository/UserRepository";
 
-
 class UserUseCase {
   constructor(private userRepository: UserRepository) {}
 
@@ -19,7 +18,6 @@ class UserUseCase {
     if (entity.cpf.length !== 11) {
       throw new HTTPError(400, 'InvalidCpfException', 'CPF is not valid');
     }
-
 
     return await this.userRepository.registerUser(entity);
   }
@@ -38,7 +36,7 @@ class UserUseCase {
     const userExists = await this.findUserByCPF({ cpf, createdAt: '' });
 
     if (!userExists) {
-      throw new HTTPError(400, 'NotFoundCpfException', 'CPF is not valid');
+      throw new HTTPError(400, 'NotFoundCpfException', 'CPF not found');
     }
 
     return await this.userRepository.removeCPF(cpf);
