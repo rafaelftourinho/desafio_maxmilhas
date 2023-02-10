@@ -1,12 +1,12 @@
 class User {
   id: number;
   cpf: string;
-  created_at: Date;
+  createdAt: Date;
 
   constructor() {
     this.id = 0;
     this.cpf = '';
-    this.created_at = new Date();
+    this.createdAt = new Date();
   }
 }
 

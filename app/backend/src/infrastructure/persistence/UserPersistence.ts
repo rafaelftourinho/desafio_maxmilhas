@@ -5,7 +5,7 @@ import db from '../utils/Connection';
 
 class UserPersistence implements IUserPersistence {
   public registerUser = async (entity: Pick<User, 'cpf'>) => {
-    const query = 'INSERT INTO users (cpf) VALUES (?)';
+    const query = 'INSERT INTO user (cpf) VALUES (?)';
 
     const values = [entity.cpf];
     await db.execute<ResultSetHeader>(query, values);
@@ -14,7 +14,7 @@ class UserPersistence implements IUserPersistence {
   }
 
   public findUserByCPF = async (entity: Pick<User, 'cpf'>): Promise<User> => {
-    const query = 'SELECT * FROM users WHERE cpf = ?';
+    const query = 'SELECT * FROM user WHERE cpf = ?';
     const values = [entity.cpf];
 
     const [data] = await db.execute(query, values);
@@ -24,7 +24,7 @@ class UserPersistence implements IUserPersistence {
   }
 
   public findAllCPF = async (): Promise<User[]> => {
-    const query = 'SELECT * FROM users';
+    const query = 'SELECT * FROM user';
 
     const [data] = await db.execute(query);
     const users = data as User[];
@@ -33,7 +33,7 @@ class UserPersistence implements IUserPersistence {
   }
 
   public removeCPF = async (cpf: string) => {
-    const query = 'DELETE FROM users WHERE cpf = ?';
+    const query = 'DELETE FROM user WHERE cpf = ?';
     const values = [cpf];
     await db.execute<ResultSetHeader>(query, values);
   }
