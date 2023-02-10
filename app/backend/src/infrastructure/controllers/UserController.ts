@@ -7,7 +7,7 @@ class UserController {
 
   public registerUser = async (req: Request, res: Response, next: NextFunction) => {
     const { cpf } = req.body;
-    const user: Pick<User, "cpf"> = { cpf };
+    const user: Omit<User, "id"> = { cpf, createdAt: new Date().toUTCString() };
 
     try {
       const userCpf = await this.userUseCase.registerUser(user);
@@ -19,10 +19,13 @@ class UserController {
 
   public findUserByCPF = async (req: Request, res: Response, next: NextFunction) => {
     const { cpf } = req.params;
-    const user: Pick<User, "cpf"> = { cpf };
+    const user: Omit<User, "id"> = { cpf, createdAt: new Date().toUTCString() };
 
     try {
-      const userCpf: Omit<User, 'id'> = await this.userUseCase.findUserByCPF(user);
+      const userCpf = await this.userUseCase.findUserByCPF(user);
+      if (!userCpf) {
+        
+      }
       res.status(200).json(userCpf);
     } catch (error) {
       next(error);

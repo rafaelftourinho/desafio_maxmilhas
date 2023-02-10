@@ -12,6 +12,6 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use('/cpf', userRoutes)
 app.use(ErrorHandler.execute);
-app.use('/', (_req, res) => res.json({ ok: true }));
+// app.use('/', (_req, res) => res.json({ ok: true }));
 
 export default app;
