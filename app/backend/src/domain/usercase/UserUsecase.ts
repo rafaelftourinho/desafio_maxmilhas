@@ -41,27 +41,31 @@ class UserUseCase {
   }
 
   public removeCPF = async (cpf: string) => {
-    if (!this.isValidCPF(cpf)) {
-      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
+    if (cpfCheck.test(cpf)) {
+      throw new HTTPError(400, 'InvalidCpfException', 'CPF is not valid');
+    }
+
+    if (await this.findUserByCPF({ cpf, createdAt: '' })) {
+      throw new HTTPError(404, 'NotFoundCpfException', 'CPF is not valid');
     }
 
     return await this.userRepository.removeCPF(cpf);
   }
 
-  public isValidCPF = async (cpf: any)=> {
-    if (typeof cpf !== 'string') return false
-    cpf = cpf.replace(/[^\d]+/g, '')
-
-    cpf = cpf.split('').map((el: string) => +el)
-    const rest = (count: number) => (cpf.slice(0, count-12)
-        .reduce( (soma: number, el: number, index: number) => (soma + el * (count-index)), 0 )*10) % 11 % 10
-    return rest(10) === cpf[9] && rest(11) === cpf[10]
-  }
-
   // public isValidCPF = async (cpf: any)=> {
   //   if (typeof cpf !== 'string') return false
-  //   cpf.split('').every(number => number === cpf[0])
+  //   cpf = cpf.replace(/[^\d]+/g, '')
+
+  //   cpf = cpf.split('').map((el: string) => +el)
+  //   const rest = (count: number) => (cpf.slice(0, count-12)
+  //       .reduce( (soma: number, el: number, index: number) => (soma + el * (count-index)), 0 )*10) % 11 % 10
+  //   return rest(10) === cpf[9] && rest(11) === cpf[10]
   // }
+
+  public isValidCPF = async (cpf: any)=> {
+    if (typeof cpf !== 'string') return false
+    cpf.split('').every(number => number === cpf[0])
+  }
 }
 
 export { UserUseCase };
