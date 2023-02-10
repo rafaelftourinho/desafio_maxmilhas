@@ -24,7 +24,7 @@ class UserController {
     try {
       const userCpf = await this.userUseCase.findUserByCPF(user);
       if (!userCpf) {
-        
+        return res.status(400).json({ message: 'CPF not found' });
       }
       res.status(200).json(userCpf);
     } catch (error) {

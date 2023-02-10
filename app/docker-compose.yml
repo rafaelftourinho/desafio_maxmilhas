@@ -31,7 +31,8 @@ services:
     ports:
       - 3002:3306
     volumes:
-      - ./db:/docker-entrypoint-initdb.d
+      - "./db/migration.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./db/seed.sql:/docker-entrypoint-initdb.d/2.sql"
     environment:
       - MYSQL_ROOT_PASSWORD=123456
     restart: always
