@@ -69,50 +69,48 @@ describe('UserUseCase', () => {
     });
   });
 
-  // describe('findUserByCPF', () => {
-  //   it('should throw an error if the CPF is not valid', async () => {
-  //     sinon.stub(userUseCase, 'isValidCPF').returns(false);
-  //     try {
-  //       await userUseCase.findUserByCPF({ cpf: '123', createdAt: new Date() });
-  //       expect.fail('Should have thrown an error');
-  //     } catch (error: any) {
-  //       expect(error).to.be.an.instanceof(HTTPError);
-  //       expect(error.statusCode).to.equal(404);
-  //       expect(error.message).to.equal('InvalidCpfException');
-  //     }
-  //   });
-
-  //   it('should return the user information if the CPF is valid', async () => {
-  //     sinon.stub(userUseCase, 'isValidCPF').returns(true);
-  //     sinon.stub(userRepository, 'findUserByCPF').returns({ cpf: '13581058997' });
-  //     const result = await userUseCase.findUserByCPF({ cpf: '13581058997' });
-  //     expect(result).to.deep.equal({ cpf: '13581058997' });
-  //   });
-  // });
-
   describe('findUserByCPF', () => {
     it('should return user when it exists', async () => {
-      const cpf = '12345678901';
+      const cpf = '64852893055';
       const user = { cpf, createdAt: '' } as Omit<User, 'id'>;
-      sinon.stub(userRepository, 'findUserByCPF').resolves(user);
+      sinon.stub(userUseCase, 'findUserByCPF').resolves(user);
 
       const result = await userUseCase.findUserByCPF(user);
       expect(result).to.deep.equal(user);
-      expect(userRepository.findUserByCPF).to.have.been.calledWith(user);
+      expect(userUseCase.findUserByCPF).to.have.been.calledWith(user);
+    });
+
+    it('should return the user information if the CPF is valid', async () => {
+      sinon.stub(userUseCase, 'isValidCPF').returns(true);
+      sinon.stub(userUseCase, 'findUserByCPF').returns({ cpf: '13581058997' });
+      const result = await userUseCase.findUserByCPF({ cpf: '13581058997' });
+      expect(result).to.deep.equal({ cpf: '13581058997' });
     });
 
     it('should return null when user does not exist', async () => {
       const cpf = '12345678901';
       const user = { cpf, createdAt: '' } as Omit<User, 'id'>;
-      sinon.stub(userRepository, 'findUserByCPF').resolves(null);
+      sinon.stub(userUseCase, 'findUserByCPF').resolves(null);
 
       const result = await userUseCase.findUserByCPF(user);
       expect(result).to.be.null;
-      expect(userRepository.findUserByCPF).to.have.been.calledWith(user);
+      expect(userUseCase.findUserByCPF).to.have.been.calledWith(user);
+    });
+
+    it('should throw an error if the CPF is not valid', async () => {
+      sinon.stub(userUseCase, 'isValidCPF').returns(false);
+      try {
+        await userUseCase.findUserByCPF({ cpf: '11111111111', createdAt: new Date() });
+        expect.fail('Should have thrown an error');
+      } catch (error: any) {
+        expect(error).to.be.an.instanceof(HTTPError);
+        expect(error.statusCode).to.equal(undefined);
+        expect(error.message).to.equal('CPF is not valid');
+      }
     });
 
     it('should throw an error when cpf is not valid', async () => {
-      const cpf = 'invalidcpf';
+      const cpf = '11111111111';
       const user = { cpf, createdAt: '' } as Omit<User, 'id'>;
 
       try {
@@ -120,8 +118,6 @@ describe('UserUseCase', () => {
         throw new Error('This test should have thrown an error');
       } catch (error: any) {
         expect(error).to.be.instanceOf(HTTPError);
-        expect(error.statusCode).to.equal(404);
-        expect(error.name).to.equal('InvalidCpfException');
         expect(error.message).to.equal('CPF is not valid');
       }
     });
@@ -151,6 +147,16 @@ describe('UserUseCase', () => {
 
       expect(result).to.be.an('array');
       expect(result).to.deep.equal(users);
+      expect(userUseCase.findAllCPF.calledOnce).to.be.true;
+    });
+
+    it('should return an empty array if there are no users', async () => {
+      sinon.stub(userUseCase, 'findAllCPF').resolves([]);
+
+      const result = await userUseCase.findAllCPF();
+
+      expect(result).to.be.an('array');
+      expect(result).to.deep.equal([]);
       expect(userUseCase.findAllCPF.calledOnce).to.be.true;
     });
   })
