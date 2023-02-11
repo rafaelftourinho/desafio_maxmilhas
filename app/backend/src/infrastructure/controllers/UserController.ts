@@ -7,7 +7,7 @@ class UserController {
 
   public registerUser = async (req: Request, res: Response, next: NextFunction) => {
     const { cpf } = req.body;
-    const user: Omit<User, "id"> = { cpf, createdAt: new Date().toUTCString() };
+    const user: Pick<User, "cpf"> = { cpf };
 
     try {
       const userCpf = await this.userUseCase.registerUser(user);

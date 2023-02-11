@@ -1,31 +1,35 @@
 import UserController from '../../src/infrastructure/controllers/UserController';
-import { UserUseCase } from '../../src/domain/usercase/UserUsecase';
-import { Response, Request, NextFunction } from 'express';
-import { UserRepository } from '../../src/domain/repository/UserRepository';
+import { Response, Request } from 'express';
 
 describe('UserController', () => {
   let userController: UserController;
-  let userUseCase: UserUseCase;
-  let userRepository: UserRepository;
+
+  const userUsecase = {
+    registerUser: jest.fn(),
+    findUserByCPF: jest.fn(),
+    findAllCPF: jest.fn(),
+    removeCPF: jest.fn(),
+  }
 
   beforeEach(() => {
-    userUseCase = new UserUseCase(userRepository);
-    userController = new UserController(userUseCase);
+    userController = new UserController(userUsecase as any);
   });
 
   describe('registerUser', () => {
     it('should return 201 and the registered user with CPF', async () => {
+      userUsecase.registerUser.mockResolvedValueOnce({ cpf: '64852893055', createdAt: new Date() });
       const req = { body: { cpf: '64852893055' } } as Request;
       const res = {
         status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
+        json: jest.fn(),
       } as unknown as Response;
       const next = jest.fn();
 
       await userController.registerUser(req, res, next);
 
+      expect(userUsecase.registerUser).toBeCalledWith({ cpf: '64852893055' });
       expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toBe({ cpf: '64852893055', createdAt: expect.any(String), id: expect.any(String) });
+      expect(res.json).toHaveBeenCalledWith({ cpf: '64852893055', createdAt: expect.any(Date) });
     });
 
     it('should call next with the error when registering the user fails', async () => {
@@ -36,7 +40,7 @@ describe('UserController', () => {
       } as unknown as Response;
       const next = jest.fn();
 
-      userUseCase.registerUser = jest.fn().mockRejectedValue(new Error('Failed to register user'));
+      userUsecase.registerUser = jest.fn().mockRejectedValue(new Error('Failed to register user'));
 
       await userController.registerUser(req, res, next);
 
@@ -53,7 +57,7 @@ describe('UserController', () => {
       } as unknown as Response;
       const next = jest.fn();
 
-      userUseCase.findUserByCPF = jest.fn().mockResolvedValue({ cpf: '12345678901', createdAt: '2022-01-01' });
+      userUsecase.findUserByCPF = jest.fn().mockResolvedValue({ cpf: '12345678901', createdAt: '2022-01-01' });
 
       await userController.findUserByCPF(req as any, res, next);
 
@@ -65,7 +69,7 @@ describe('UserController', () => {
   describe('removeCPF', () => {
     it('should remove CPF successfully', async () => {
       const cpf = '12345678901';
-      const removeCPFSpy = jest.spyOn(userUseCase, 'removeCPF');
+      const removeCPFSpy = jest.spyOn(userUsecase, 'removeCPF');
       const req = {
         params: {
           cpf
@@ -82,14 +86,14 @@ describe('UserController', () => {
       expect(await userController.removeCPF(req as any, res as any, next)).toBeUndefined();
       expect(removeCPFSpy).toHaveBeenCalledTimes(2);
       expect(removeCPFSpy).toHaveBeenCalledWith(cpf);
-      // expect(res.status).toHaveBeenCalledWith(200);
-      // expect(res.status().end).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.status().end).toHaveBeenCalled();
     });
 
     it('should call next with error when removing CPF fails', async () => {
       const cpf = '123.456.789-10';
       const error = new Error('Removing CPF failed');
-      jest.spyOn(userUseCase, 'removeCPF').mockRejectedValue(error);
+      jest.spyOn(userUsecase, 'removeCPF').mockRejectedValue(error);
       const req = {
         params: {
           cpf
@@ -111,7 +115,7 @@ describe('UserController', () => {
         { cpf: "13581054689", id: 3, createdAt: expect.any(Date) },
       ];
 
-      jest.spyOn(userUseCase, "findAllCPF").mockResolvedValue(mockData);
+      jest.spyOn(userUsecase, "findAllCPF").mockResolvedValue(mockData);
 
       const mockResponse = {
         status: jest.fn().mockReturnValue({ json: jest.fn() }),
@@ -126,7 +130,7 @@ describe('UserController', () => {
     });
 
     it("should return an error if an exception is thrown", async () => {
-      jest.spyOn(userUseCase, "findAllCPF").mockRejectedValue(new Error("Test error"));
+      jest.spyOn(userUsecase, "findAllCPF").mockRejectedValue(new Error("Test error"));
 
       const mockResponse = {
         status: jest.fn().mockReturnValue({ json: jest.fn() }),

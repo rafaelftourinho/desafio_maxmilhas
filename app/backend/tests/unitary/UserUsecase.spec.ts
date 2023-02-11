@@ -84,4 +84,26 @@ describe('UserUseCase', () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe('isValidCPF', () => {
+    it('should return false if the type of cpf is not a string', async () => {
+      const result = await userUseCase.isValidCPF(1234567890);
+      expect(result).toBe(false);
+    });
+
+    it('should return false if the length of cpf is not 11', async () => {
+      const result = await userUseCase.isValidCPF('123456789');
+      expect(result).toBe(false);
+    });
+
+    it('should return false if all digits of cpf are the same', async () => {
+      const result = await userUseCase.isValidCPF('11111111111');
+      expect(result).toBe(false);
+    });
+
+    it('should return true if cpf is valid', async () => {
+      const result = await userUseCase.isValidCPF('12345678909');
+      expect(result).toBe(true);
+    });
+  });
 });
