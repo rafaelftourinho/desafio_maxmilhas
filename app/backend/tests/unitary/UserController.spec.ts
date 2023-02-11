@@ -14,19 +14,19 @@ describe('UserController', () => {
   });
 
   describe('registerUser', () => {
-    // it('should return 201 and the registered user with CPF', async () => {
-    //   const req = { body: { cpf: '12345678901' } } as Request;
-    //   const res = {
-    //     status: jest.fn().mockReturnThis(),
-    //     json: jest.fn().mockReturnThis(),
-    //   } as unknown as Response;
-    //   const next = jest.fn();
+    it('should return 201 and the registered user with CPF', async () => {
+      const req = { body: { cpf: '64852893055' } } as Request;
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis(),
+      } as unknown as Response;
+      const next = jest.fn();
 
-    //   await userController.registerUser(req, res, next);
+      await userController.registerUser(req, res, next);
 
-    //   expect(res.status).toHaveBeenCalledWith(201);
-    //   expect(res.json).toHaveBeenCalledWith({ cpf: '12345678901', createdAt: expect.any(String) });
-    // });
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toBe({ cpf: '64852893055', createdAt: expect.any(String), id: expect.any(String) });
+    });
 
     it('should call next with the error when registering the user fails', async () => {
       const req = { body: { cpf: '12345678901' } } as Request;
@@ -63,26 +63,28 @@ describe('UserController', () => {
   });
 
   describe('removeCPF', () => {
-    // it('should remove CPF successfully', async () => {
-    //   const cpf = '12345678901';
-    //   const removeCPFSpy = jest.spyOn(userUseCase, 'removeCPF');
-    //   const req = {
-    //     params: {
-    //       cpf
-    //     }
-    //   };
-    //   const res = {
-    //     status: jest.fn().mockReturnValue({
-    //       end: jest.fn()
-    //     })
-    //   };
-    //   const next = jest.fn();
+    it('should remove CPF successfully', async () => {
+      const cpf = '12345678901';
+      const removeCPFSpy = jest.spyOn(userUseCase, 'removeCPF');
+      const req = {
+        params: {
+          cpf
+        }
+      };
+      const res = {
+        status: jest.fn().mockReturnValue({
+          end: jest.fn()
+        })
+      };
+      const next = jest.fn();
 
-    //   await userController.removeCPF(req as any, res as any, next);
-    //   expect(removeCPFSpy).toHaveBeenCalledWith(cpf);
-    //   expect(res.status).toHaveBeenCalledWith(200);
-    //   expect(res.status().end).toHaveBeenCalled();
-    // });
+      await userController.removeCPF(req as any, res as any, next);
+      expect(await userController.removeCPF(req as any, res as any, next)).toBeUndefined();
+      expect(removeCPFSpy).toHaveBeenCalledTimes(2);
+      expect(removeCPFSpy).toHaveBeenCalledWith(cpf);
+      // expect(res.status).toHaveBeenCalledWith(200);
+      // expect(res.status().end).toHaveBeenCalled();
+    });
 
     it('should call next with error when removing CPF fails', async () => {
       const cpf = '123.456.789-10';
@@ -137,4 +139,4 @@ describe('UserController', () => {
       expect(mockNext).toHaveBeenCalledWith(new Error("Test error"));
     });
   });
-});
+})
