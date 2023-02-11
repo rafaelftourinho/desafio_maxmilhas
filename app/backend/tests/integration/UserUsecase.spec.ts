@@ -21,10 +21,10 @@ describe('UserUseCase', () => {
 
   describe('registerUser', () => {
     it('should throw an error if CPF already exists', async () => {
-      userRepository.findUserByCPF.resolves({ cpf: '11111111112' });
+      userRepository.findUserByCPF.resolves({ cpf: '64852893055' });
 
       try {
-        await userUseCase.registerUser({ cpf: '11111111112' });
+        await userUseCase.registerUser({ cpf: '64852893055' });
         throw new Error('should have thrown an error');
       } catch (err: any) {
         expect(err).to.be.an.instanceOf(HTTPError);
@@ -45,10 +45,10 @@ describe('UserUseCase', () => {
     });
 
     it('should throw an error if CPF is not valid', async () => {
-      sinon.stub(userUseCase, 'isValidCPF').resolves(true);
+      sinon.stub(userUseCase, 'isValidCPF').resolves(false);
 
       try {
-        await userUseCase.registerUser({ cpf: '11111111111' });
+        await userUseCase.registerUser({ cpf: '11111111112' });
           throw new Error('should have thrown an error');
       } catch (err: any) {
         expect(err).to.be.an.instanceOf(HTTPError);
@@ -58,8 +58,8 @@ describe('UserUseCase', () => {
     });
 
     it('should register the user if CPF is valid', async () => {
-      sinon.stub(userUseCase, 'isValidCPF').resolves(false);
-      await userUseCase.registerUser({ cpf: '11111111112' });
+      sinon.stub(userUseCase, 'isValidCPF').resolves(true);
+      await userUseCase.registerUser({ cpf: '13581058997' });
       expect(userRepository.registerUser.calledOnce).to.be.true;
     });
   });
