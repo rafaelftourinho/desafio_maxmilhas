@@ -160,86 +160,33 @@ describe('UserUseCase', () => {
       expect(userUseCase.findAllCPF.calledOnce).to.be.true;
     });
   })
-  // describe('removeCPF', () => {
-  //   it('should throw an error if the CPF is not found', async () => {
-  //     const findUserByCPFStub = sinon.stub(userUseCase, 'findUserByCPF').resolves(null);
-  //     const removeCPF = userUseCase.removeCPF('1234567890');
+  describe('removeCPF', () => {
+    it('should throw an error if the CPF is not found', async () => {
+      const findUserByCPFStub = sinon.stub(userUseCase, 'removeCPF').resolves(null);
+      const removeCPF = userUseCase.removeCPF('1234567890');
 
-  //     return removeCPF.catch((error: any) => {
-  //       expect(error).to.be.an.instanceof(HTTPError);
-  //       expect(error.statusCode).to.equal(400);
-  //       expect(error.code).to.equal('NotFoundCpfException');
-  //       expect(error.message).to.equal('CPF not found');
-  //       findUserByCPFStub.restore();
-  //     });
-  //   });
+      return removeCPF.catch((error: any) => {
+        expect(error).to.be.an.instanceof(HTTPError);
+        expect(error.statusCode).to.equal(400);
+        expect(error.code).to.equal('NotFoundCpfException');
+        expect(error.message).to.equal('CPF not found');
+        findUserByCPFStub.restore();
+      });
+    });
 
-  //   it('should throw an error if the CPF is not valid', async () => {
-  //     const findUserByCPFStub = sinon.stub(userUseCase, 'findUserByCPF').resolves({ cpf: '12345678901', createdAt: '' });
-  //     const isValidCPFStub = sinon.stub(userUseCase, 'isValidCPF').resolves(false);
-  //     const removeCPF = userUseCase.removeCPF('12345678901');
+    it('should throw an error if the CPF is not valid', async () => {
+      const findUserByCPFStub = sinon.stub(userUseCase, 'removeCPF').resolves({ cpf: '12345678901', createdAt: '' });
+      const isValidCPFStub = sinon.stub(userUseCase, 'isValidCPF').resolves(false);
+      const removeCPF = userUseCase.removeCPF('12345678901');
 
-  //     return removeCPF.catch((error: any) => {
-  //       expect(error).to.be.an.instanceof(HTTPError);
-  //       expect(error.statusCode).to.equal(404);
-  //       expect(error.code).to.equal('InvalidCpfException');
-  //       expect(error.message).to.equal('CPF is not valid');
-  //       findUserByCPFStub.restore();
-  //       isValidCPFStub.restore();
-  //     });
-  //   });
-  //   it('should throw an error if CPF is not valid', async () => {
-  //     const cpf = '12345678901';
-  //     const findUserByCPFStub = sinon.stub(userUseCase, 'findUserByCPF').resolves({});
-  //     sinon.stub(userUseCase, 'isValidCPF').resolves(false);
-
-  //     try {
-  //       await userUseCase.removeCPF(cpf);
-  //       expect.fail('Expected to throw an error');
-  //     } catch (error: any) {
-  //       expect(error).to.be.an.instanceof(HTTPError);
-  //       expect(error.code).to.be.equal(404);
-  //       expect(error.name).to.be.equal('InvalidCpfException');
-  //       expect(error.message).to.be.equal('CPF is not valid');
-  //     }
-
-  //     sinon.assert.calledOnce(findUserByCPFStub);
-  //     sinon.assert.called
-  //   });
-  //   it("should throw error if cpf is not found", async () => {
-  //     const findUserByCPFStub = sinon.stub(userUseCase, "findUserByCPF").resolves(null);
-  //     const removeCPFStub = sinon.stub(userRepository, "removeCPF").resolves();
-  
-  //     try {
-  //       await userUseCase.removeCPF("12345678910");
-  //     } catch (error: any) {
-  //       expect(error).to.be.an.instanceOf(HTTPError);
-  //       expect(error.statusCode).to.equal(400);
-  //       expect(error.error).to.equal("NotFoundCpfException");
-  //       expect(error.message).to.equal("CPF not found");
-  //     }
-  
-  //     findUserByCPFStub.restore();
-  //     removeCPFStub.restore();
-  //   });
-  
-  //   it("should throw error if cpf is not valid", async () => {
-  //     const findUserByCPFStub = sinon.stub(userUseCase, "findUserByCPF").resolves({ cpf: "12345678910" });
-  //     const isValidCPFStub = sinon.stub(userUseCase, "isValidCPF").returns(false);
-  //     const removeCPFStub = sinon.stub(userRepository, "removeCPF").resolves();
-  
-  //     try {
-  //       await userUseCase.removeCPF("12345678910");
-  //     } catch (error: any) {
-  //       expect(error).to.be.an.instanceOf(HTTPError);
-  //       expect(error.statusCode).to.equal(404);
-  //       expect(error.error).to.equal("InvalidCpfException");
-  //       expect(error.message).to.equal("CPF is not valid");
-  //     }
-  
-  //     findUserByCPFStub.restore();
-  //     isValidCPFStub.restore();
-  //     removeCPFStub.restore();
-  //   });
-  // });
+      return removeCPF.catch((error: any) => {
+        expect(error).to.be.an.instanceof(HTTPError);
+        expect(error.statusCode).to.equal(404);
+        expect(error.code).to.equal('InvalidCpfException');
+        expect(error.message).to.equal('CPF is not valid');
+        findUserByCPFStub.restore();
+        isValidCPFStub.restore();
+      });
+    });
+  });
 });
