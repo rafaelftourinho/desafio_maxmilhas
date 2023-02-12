@@ -50,26 +50,33 @@ Por fim, para garantir a qualidade do código, estão sendo realizados testes co
 
   <details open>
 
+    baseUrl = http://localhost:3001
+
     Adicionar um CPF na lista restrita
         Método HTTP: POST
-        URL: /cpf
+        URL: baseUrl/cpf
         Dados enviados: { "cpf": "64852893055" }
+        Erro: retorna uma exceção do tipo "InvalidCpfException" ou "ExistsCpfException" 
 
     Verificar um CPF na lista restrita
         Método HTTP: GET
-        URL: /cpf/{cpf}
-        Sucesso: retorna o CPF e a data de criação no formato ISO 8601 - UTC
+        URL: baseUrl/cpf/{cpf}
+        Sucesso: retorna o CPF e a data de criação no formato ISO 8601 - UTC 
+        ex: { "cpf": "64852893055", createdAt: "2019-12-
+        17T22:22:08.547Z"}
         Erro: retorna uma exceção do tipo "NotFoundCpfException" ou "InvalidCpfException"
 
     Remover um CPF da lista restrita
         Método HTTP: DELETE
-        URL: /cpf/{cpf}
+        URL: baseUrl/cpf/{cpf}
         Erro: retorna uma exceção do tipo "NotFoundCpfException" ou "InvalidCpfException"
 
     Visualizar todos os CPFs da lista restrita
         Método HTTP: GET
-        URL: /cpf
+        URL: baseUrl/cpf
         Sucesso: retorna um array de objetos, cada um representando um CPF da lista restrita
+        ex: [ { "cpf": "64852893055", createdAt: "2019-12-
+        17T22:22:08.547Z"} ]
   </details>
 
 <hr>
