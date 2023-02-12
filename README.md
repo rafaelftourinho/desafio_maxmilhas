@@ -28,7 +28,7 @@
 - <strong>Linguagens de programação: [NodeJs](https://nodejs.org/en/), [TypeScript](https://www.typescriptlang.org/);
 - Banco de dados: [MySQL](https://www.mysql.com/);
 - Arquiteturas: [DDD](), [Arquitetura Hexagonal]();
-- Princípios (Design Pattern): [SOLID](), [Clean Code]();
+- Princípios: [SOLID](), [Clean Code]();
 - Organização e padrão: [ESLint]();
 - Ferramentas DevOps: [Docker](), [Git]();
 - Segurança: [Helmet](https://www.npmjs.com/package/helmet);
@@ -38,7 +38,11 @@
 
 ## Sobre o projeto
 
-Este projeto é uma aplicação web desenvolvida utilizando as linguagens de programação NodeJs e TypeScript, que seguem os princípios do SOLID e Clean Code. A arquitetura segue o padrão DDD e Arquitetura Hexagonal, o que garante a escalabilidade e manutenibilidade do código. O banco de dados utilizado é o MySQL e para garantir a organização e padrão do código, está sendo utilizado o ESLint. As ferramentas DevOps são Docker e Git, que garantem a automatização do processo de deploy e gerenciamento de versões. Para garantir a segurança da aplicação, está sendo utilizado o Helmet. Por fim, para garantir a qualidade do código, estão sendo realizados testes com as ferramentas Jest, Mocha, Sinon e Chai.
+Este projeto é uma aplicação web desenvolvida utilizando as linguagens de programação <strong>NodeJs e TypeScript</strong>, que seguem os princípios do <strong>SOLID e Clean Code</strong>. A arquitetura segue o padrão <strong>DDD e Arquitetura Hexagonal</strong>, o que garante a escalabilidade e manutenibilidade do código. <br>
+O banco de dados utilizado é o <strong>MySQL</strong> e para garantir a organização e padrão do código, está sendo utilizado o <strong>ESLint</strong>. <br>
+As ferramentas DevOps são <strong>Docker e Git</strong>, que garantem a automatização do processo de deploy e gerenciamento de versões. <br>
+Para garantir a segurança da aplicação, está sendo utilizado o <strong>Helmet</strong>. <br>
+Por fim, para garantir a qualidade do código, estão sendo realizados testes com as ferramentas <Strong>Jest, Mocha, Sinon e Chai</strong>.
 <hr>
 
 ## Descrição da API
