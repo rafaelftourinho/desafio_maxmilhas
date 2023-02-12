@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/application/server.ts",
     "start": "node ./dist/server.js",
-    "migration": "",
-    "seed": "",
     "test:integration": "mocha --require ts-node/register --require tsconfig-paths/register --exit --recursive 'tests/integration/*.spec.ts'",
     "test:unit": "jest"
   },

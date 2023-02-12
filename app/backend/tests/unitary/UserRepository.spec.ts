@@ -1,4 +1,3 @@
-import { User } from '../../src/domain/entities/User';
 import { UserRepository } from '../../src/domain/repository/UserRepository';
 
 describe('UserRepository', () => {
