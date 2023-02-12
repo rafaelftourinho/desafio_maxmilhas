@@ -37,12 +37,12 @@ class UserController {
   public findAllCPF = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const userCpf = await this.userUseCase.findAllCPF();
-      const test = userCpf.map((user) => (
+      const allUsersCpfs = userCpf.map((user) => (
         { ...user,
         id: undefined,
         }
       ))
-      res.status(200).json(test);
+      res.status(200).json(allUsersCpfs);
     } catch (error) {
       next(error);
     }
