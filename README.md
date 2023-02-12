@@ -102,8 +102,11 @@ code .
 # Instale as dependências globais
 npm i
 
+# Entre na pasta backend
+cd app/backend 
+
 # Instale as dependências de backend
-cd app/backend npm i
+npm i
 
 # Suba o container docker
 docker-compose up -d
