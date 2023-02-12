@@ -13,7 +13,7 @@
 
 [Tecnologias utilizadas](#tecnologias-utilizadas)
 
-[Sobre o desafio MaxMilhas](#desafio-maxmilhas)
+[Sobre o projeto](#sobre-o-projeto)
 
 [Descrição da API](#descrição-da-api)
 
@@ -36,7 +36,7 @@
 </strong>
 <hr>
 
-## Desafio MaxMilhas
+## Sobre o projeto
 
 Este projeto é uma aplicação web desenvolvida utilizando as linguagens de programação NodeJs e TypeScript, que seguem os princípios do SOLID e Clean Code. A arquitetura segue o padrão DDD e Arquitetura Hexagonal, o que garante a escalabilidade e manutenibilidade do código. O banco de dados utilizado é o MySQL e para garantir a organização e padrão do código, está sendo utilizado o ESLint. As ferramentas DevOps são Docker e Git, que garantem a automatização do processo de deploy e gerenciamento de versões. Para garantir a segurança da aplicação, está sendo utilizado o Helmet. Por fim, para garantir a qualidade do código, estão sendo realizados testes com as ferramentas Jest, Mocha, Sinon e Chai.
 <hr>
