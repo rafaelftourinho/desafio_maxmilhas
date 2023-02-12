@@ -13,7 +13,6 @@ services:
         condition: service_healthy
     environment:
       - APP_PORT=3001
-      - JWT_SECRET=jwt_secret
       - DB_USER=root
       - DB_PASS=123456
       - DB_HOST=db
