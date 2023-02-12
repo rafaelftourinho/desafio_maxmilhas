@@ -3,5 +3,5 @@ USE `desafio_maxmilhas`
 INSERT INTO `user` VALUES
 (1,'15458212754',NOW()),
 (2,'13581059797',NOW()),
-(3,'14267892498',NOW()),
+(3,'08318739736',NOW()),
 (4,'64852893055',NOW());
