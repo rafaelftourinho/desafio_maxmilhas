@@ -29,7 +29,14 @@ class UserUseCase {
   }
 
   public findAllCPF = async (): Promise<User[]> => {
-    return await this.userRepository.findAllCPF();
+    const userCpfArray = await this.userRepository.findAllCPF();
+    const allUsersCpfs = userCpfArray.map((user) => (
+      { ...user,
+      id: undefined,
+      }
+    ));
+
+    return allUsersCpfs;
   }
 
   public removeCPF = async (cpf: string) => {

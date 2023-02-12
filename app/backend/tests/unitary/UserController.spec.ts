@@ -125,7 +125,7 @@ describe('UserController', () => {
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.status().json).toHaveBeenCalledWith(
-        mockData.map((user) => ({ ...user, id: undefined }))
+        mockData.map((user) => ({ ...user }))
       );
     });
 
