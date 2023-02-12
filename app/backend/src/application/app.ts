@@ -14,3 +14,4 @@ app.use('/cpf', userRoutes)
 app.use(ErrorHandler.execute);
 
 export default app;
+
