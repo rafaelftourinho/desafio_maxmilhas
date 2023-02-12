@@ -19,15 +19,15 @@ class UserController {
 
   public findUserByCPF = async (req: Request, res: Response, next: NextFunction) => {
     const { cpf } = req.params;
-    const user: Pick<User, 'cpf'> = { cpf };
 
     try {
-      const userCpf = await this.userUseCase.findUserByCPF(user);
+      const userCpf = await this.userUseCase.findUserByCPF(cpf);
       if (!userCpf) {
         return res.status(404).json({ type: 'NotFoundCpfException', message: 'CPF is not valid' });
       }
       res.status(200).json({
-        ...userCpf,
+        cpf,
+        createdAt: new Date(),
         id: undefined,
       });
     } catch (error) {

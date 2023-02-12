@@ -13,9 +13,9 @@ class UserPersistence implements IUserPersistence {
     return newUser
   }
 
-  public findUserByCPF = async (entity: Omit<User, 'id'>): Promise<User> => {
+  public findUserByCPF = async (cpf: string) => {
     const query = 'SELECT * FROM user WHERE cpf = ?';
-    const values = [entity.cpf];
+    const values = [cpf];
 
     const [data] = await db.execute(query, values);
     const [user] = data as User[];

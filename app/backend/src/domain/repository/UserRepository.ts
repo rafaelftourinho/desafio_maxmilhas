@@ -8,8 +8,8 @@ class UserRepository {
     return await this.iPersistence.registerUser(entity);
   }
 
-  public findUserByCPF = async (entity: Pick<User, "cpf">): Promise<User> => {
-    return await this.iPersistence.findUserByCPF(entity);
+  public findUserByCPF = async (cpf: string): Promise<string> => {
+    return await this.iPersistence.findUserByCPF(cpf);
   }
 
   public findAllCPF = async (): Promise<User[]> => {

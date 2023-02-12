@@ -19,25 +19,21 @@ describe('UserPersistence', () => {
   });
 
   it('should find a user by CPF', async () => {
-    (db.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve([[{
-      cpf: '12345678901',
-      createdAt: new Date(),
-      id: 1,
-    }]]));
-    const user = { cpf: '12345678901', createdAt: expect.any(Date) };
+    (db.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve([[ 'string qualquer']]));
+    const user ='string qualquer';
 
     const foundUser = await userPersistence.findUserByCPF(user as any);
 
-    expect(db.execute).toBeCalledWith('SELECT * FROM user WHERE cpf = ?', [user.cpf]);
-    expect(foundUser).toEqual({ ...user, id: expect.any(Number) });
+    expect(db.execute).toBeCalledWith('SELECT * FROM user WHERE cpf = ?', [user]);
+    expect(foundUser).toEqual(user);
   });
 
   it('should return null if user is not found by CPF', async () => {
     (db.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve([[]]));
-    const user = { cpf: '12345678901' };
+    const user = '12345678901';
 
     const foundUser = await userPersistence.findUserByCPF(user as any);
-    expect(db.execute).toBeCalledWith('SELECT * FROM user WHERE cpf = ?', [user.cpf]);
+    expect(db.execute).toBeCalledWith('SELECT * FROM user WHERE cpf = ?', [user]);
     expect(foundUser).toBeNull();
   });
 

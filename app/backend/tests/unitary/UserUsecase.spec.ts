@@ -24,7 +24,7 @@ describe('UserUseCase', () => {
     });
 
     it('should throw an error if the user already exists', async () => {
-      userRepository.findUserByCPF.mockResolvedValue({ cpf: '64852893055', createdAt: '', id: 1 });
+      userRepository.findUserByCPF.mockResolvedValue('64852893055');
       await expect(userUseCase.registerUser({ cpf: '64852893055' })).rejects.toThrow(
         new HTTPError(400, 'ExistsCpfException', 'CPF already exists'),
       );
@@ -46,20 +46,20 @@ describe('UserUseCase', () => {
 
   describe('findUserByCPF', () => {
     it('should return a user', async () => {
-      userRepository.findUserByCPF.mockResolvedValue({ cpf: '64852893055' } as unknown as User);
-      const result = await userUseCase.findUserByCPF({ cpf: '64852893055' });
-      expect(result).toEqual({ cpf: '64852893055' });
+      userRepository.findUserByCPF.mockResolvedValue('64852893055');
+      const result = await userUseCase.findUserByCPF('64852893055');
+      expect(result).toEqual('64852893055');
     });
 
     it('should return null if the user does not exist', async () => {
-      const result = await userUseCase.findUserByCPF({ cpf: '64852893055' });
+      const result = await userUseCase.findUserByCPF('64852893055');
       expect(result).toEqual(null);
     });
   });
 
   describe('removeCPF', () => {
     it('should remove the CPF', async () => {
-      userRepository.findUserByCPF.mockResolvedValueOnce({ cpf: '64852893055', createdAt: '', id: 1 });
+      userRepository.findUserByCPF.mockResolvedValueOnce('64852893055');
       await userUseCase.removeCPF('64852893055');
       expect(userRepository.removeCPF).toHaveBeenCalledWith('64852893055');
     });

@@ -57,12 +57,12 @@ describe('UserController', () => {
       } as unknown as Response;
       const next = jest.fn();
 
-      userUsecase.findUserByCPF = jest.fn().mockResolvedValue({ cpf: '12345678901', createdAt: '2022-01-01' });
+      userUsecase.findUserByCPF = jest.fn().mockResolvedValue('12345678901');
 
       await userController.findUserByCPF(req as any, res, next);
 
       expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith({ cpf: '12345678901', createdAt: '2022-01-01' });
+      expect(res.json).toHaveBeenCalledWith({ cpf: '12345678901', createdAt: expect.any(Date), id: undefined });
     });
   });
 
