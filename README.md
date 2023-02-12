@@ -83,6 +83,11 @@ Este projeto é uma aplicação web desenvolvida utilizando as linguagens de pro
 # Abra um terminal e copie este repositório com o comando
 git@github.com:rafaelftourinho/desafio_maxmilhas.git
 
+# Navegue até a pasta raíz da aplicação
+
+# Caso esteja usando o VsCode, pode utilizar o comando no terminal dentro da pasta
+code .
+
 # Instale as dependências globais
 npm i
 
@@ -95,6 +100,8 @@ docker-compose up -d
 # A porta utilizada para rodar o node está mapeada na 3001 e a porta disponibilizada para o database é a 3002
 
 # Ao subir o container, a aplicação irá startar automaticamente e a criação do banco de dados será feita (migrate) assim como dados pré-inseridos (seed)
+
+# Para rodar os testes, você precisa estar na pasta backend
 
 # Para rodar os testes de integração
 npm run test:integration
