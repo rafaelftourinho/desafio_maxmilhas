@@ -8,11 +8,11 @@ class UserUseCase {
   public registerUser = async (entity: Pick<User, "cpf">): Promise<User> => {
     const userExists = await this.findUserByCPF(entity.cpf as unknown as string)
     if (userExists)
-      throw new HTTPError(400, 'ExistsCpfException', 'CPF already exists');
+      throw new HTTPError(422, 'ExistsCpfException', 'CPF already exists');
       
     const isValidCpf = await this.isValidCPF(entity.cpf);
     if (!isValidCpf)
-      throw new HTTPError(422, 'InvalidCpfException', 'CPF is not valid');
+      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
 
     return await this.userRepository.registerUser(entity);
   }
@@ -21,7 +21,7 @@ class UserUseCase {
     const isValidCpf = await this.isValidCPF(cpf);
 
     if (!isValidCpf)
-      throw new HTTPError(422, 'InvalidCpfException', 'CPF is not valid');
+      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
 
     const result = await this.userRepository.findUserByCPF(cpf);
 
@@ -48,7 +48,7 @@ class UserUseCase {
     const isValidCpf = await this.isValidCPF(cpf);
 
     if (!isValidCpf)
-      throw new HTTPError(422, 'InvalidCpfException', 'CPF is not valid');
+      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
 
     return await this.userRepository.removeCPF(cpf);
   }

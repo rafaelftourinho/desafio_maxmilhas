@@ -34,7 +34,7 @@ describe('UserUseCase', () => {
       } catch (err: any) {
         expect(err).to.be.an.instanceOf(HTTPError);
         expect(err.message).to.equal('CPF already exists');
-        expect(err.status).to.equal(400);
+        expect(err.status).to.equal(422);
       }
     });
 
@@ -138,8 +138,8 @@ describe('UserUseCase', () => {
   describe('findAllCPF', () => {
     it('should return an array of all users', async () => {
       const users: User[] = [
-        { id: 1, cpf: '11111111111', createdAt: '' },
-        { id: 2, cpf: '22222222222', createdAt: '' }
+        { cpf: '11111111111', createdAt: '' },
+        { cpf: '22222222222', createdAt: '' }
       ];
       sinon.stub(userUseCase, 'findAllCPF').resolves(users);
 
