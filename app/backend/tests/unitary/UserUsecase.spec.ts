@@ -46,13 +46,13 @@ describe('UserUseCase', () => {
 
   describe('findUserByCPF', () => {
     it('should return a user', async () => {
-      userRepository.findUserByCPF.mockResolvedValue({ cpf: '64852893055', createdAt: '' } as unknown as User);
-      const result = await userUseCase.findUserByCPF({ cpf: '64852893055', createdAt: '' });
-      expect(result).toEqual({ cpf: '64852893055', createdAt: '' });
+      userRepository.findUserByCPF.mockResolvedValue({ cpf: '64852893055' } as unknown as User);
+      const result = await userUseCase.findUserByCPF({ cpf: '64852893055' });
+      expect(result).toEqual({ cpf: '64852893055' });
     });
 
     it('should return null if the user does not exist', async () => {
-      const result = await userUseCase.findUserByCPF({ cpf: '64852893055', createdAt: '' });
+      const result = await userUseCase.findUserByCPF({ cpf: '64852893055' });
       expect(result).toEqual(null);
     });
   });
