@@ -28,7 +28,6 @@ class UserController {
       res.status(200).json({
         cpf,
         createdAt: new Date(),
-        id: undefined,
       });
     } catch (error) {
       next(error);

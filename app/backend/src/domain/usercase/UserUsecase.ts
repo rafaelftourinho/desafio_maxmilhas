@@ -23,6 +23,7 @@ class UserUseCase {
 
   public findUserByCPF = async (cpf: string): Promise<string| null> => {
     const isValidCpf = await this.isValidCPF(cpf);
+
     if (!isValidCpf)
       throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
 
@@ -42,6 +43,7 @@ class UserUseCase {
       throw new HTTPError(400, 'NotFoundCpfException', 'CPF not found');
 
     const isValidCpf = await this.isValidCPF(cpf);
+
     if (!isValidCpf)
       throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
 
@@ -49,18 +51,24 @@ class UserUseCase {
   }
 
   public isValidCPF = async (cpf: any) => {
-    if (typeof cpf !== 'string') return false
-    cpf = cpf.replace(/[^\d]+/g, '')
-    if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false
-    cpf = cpf.split('')
+    if (typeof cpf !== 'string') return false;
+
+    cpf = cpf.replace(/[^\d]+/g, '');
+
+    if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false;
+    cpf = cpf.split('');
+
     const validator = cpf
       .filter((digit: any, index: any, array: any) => index >= array.length - 2 && digit)
-      .map((el: any) => +el)
+      .map((el: any) => +el);
+
     const toValidate = (pop: any) => cpf
       .filter((digit: any, index: any, array: any) => index < array.length - pop && digit)
-      .map((el: any) => +el)
+      .map((el: any) => +el);
+
     const rest = (count: any, pop: any) => (toValidate(pop)
-      .reduce((soma: any, el: any, i: any) => soma + el * (count - i), 0) * 10) % 11 % 10
+      .reduce((soma: any, el: any, i: any) => soma + el * (count - i), 0) * 10) % 11 % 10;
+
     return !(rest(10, 2) !== validator[0] || rest(11, 1) !== validator[1])
   }
 }
