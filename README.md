@@ -99,9 +99,6 @@ git@github.com:rafaelftourinho/desafio_maxmilhas.git
 # Caso esteja usando o VsCode, pode utilizar o comando no terminal dentro da pasta
 code .
 
-# Instale as dependências globais
-npm i
-
 # Entre na pasta backend
 cd app/backend 
 
