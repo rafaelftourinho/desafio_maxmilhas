@@ -1,4 +1,4 @@
-jest.mock('../../src/infrastructure/utils/Connection', () => ({
+jest.mock('../../src/infrastructure/database/Connection', () => ({
   __esModule: true,
   default: {
     execute: jest.fn(),

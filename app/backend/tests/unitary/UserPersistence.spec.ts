@@ -1,6 +1,6 @@
 import '../helper/dbMock';
 import { UserPersistence } from '../../src/infrastructure/persistence/UserPersistence';
-import db from '../../src/infrastructure/utils/Connection';
+import db from '../../src/infrastructure/database/Connection';
 
 describe('UserPersistence', () => {
   let userPersistence: UserPersistence;

@@ -1,7 +1,6 @@
 import { UserUseCase } from '../../src/domain/usercase/UserUsecase';
 import { UserRepository } from '../../src/domain/repository/UserRepository';
 import { HTTPError } from '../../src/infrastructure/utils/HTTPError';
-import { User } from '../../src/domain/entities/User';
 
 describe('UserUseCase', () => {
   let userUseCase: UserUseCase;
@@ -74,9 +73,9 @@ describe('UserUseCase', () => {
 
   describe('findAllCPF', () => {
     it('should return a list of users', async () => {
-      userRepository.findAllCPF.mockResolvedValue([{ cpf: '64852893055', createdAt: '', id: 1 },{ cpf: '64852893056', createdAt: '', id: 2 }]);
+      userRepository.findAllCPF.mockResolvedValue([{ cpf: '64852893055', createdAt: '', },{ cpf: '64852893056', createdAt: '', }]);
       const result = await userUseCase.findAllCPF();
-      expect(result).toEqual([{ cpf: '64852893055', createdAt: '', id: 1 }, { cpf: '64852893056', createdAt: '', id: 2 }]);
+      expect(result).toEqual([{ cpf: '64852893055', createdAt: '' }, { cpf: '64852893056', createdAt: '' }]);
     });
   
     it('should return an empty list if no users are found', async () => {

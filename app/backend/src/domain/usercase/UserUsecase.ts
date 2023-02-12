@@ -12,11 +12,7 @@ class UserUseCase {
       
     const isValidCpf = await this.isValidCPF(entity.cpf);
     if (!isValidCpf)
-      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
-
-
-    if (entity.cpf.length !== 11)
-      throw new HTTPError(400, 'InvalidCpfException', 'CPF is not valid');
+      throw new HTTPError(422, 'InvalidCpfException', 'CPF is not valid');
 
     return await this.userRepository.registerUser(entity);
   }
@@ -25,7 +21,7 @@ class UserUseCase {
     const isValidCpf = await this.isValidCPF(cpf);
 
     if (!isValidCpf)
-      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
+      throw new HTTPError(422, 'InvalidCpfException', 'CPF is not valid');
 
     const result = await this.userRepository.findUserByCPF(cpf);
 
@@ -45,7 +41,7 @@ class UserUseCase {
     const isValidCpf = await this.isValidCPF(cpf);
 
     if (!isValidCpf)
-      throw new HTTPError(404, 'InvalidCpfException', 'CPF is not valid');
+      throw new HTTPError(422, 'InvalidCpfException', 'CPF is not valid');
 
     return await this.userRepository.removeCPF(cpf);
   }
